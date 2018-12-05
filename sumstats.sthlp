@@ -1,0 +1,41 @@
+{smcl}
+{* Nov 8th 2017}
+{hline}
+Help for {hi:sumstats} version 1.0.0
+{hline}
+
+{title:Description}
+
+{p}{cmd:sumstats} easily generates a table of summary statistics with various {help if}-restrictions
+and prints them to a specified output file using {help putexcel}.
+
+{title:Syntax}
+
+{phang}{cmd:sumstats} ({it:varlist_1} [{help if}]) [({it:varlist_2} [{help if}]) ...]
+{break}	{help using} {it:"/path/to/output.xlsx"} [{help weight}], stats({it:{help tabstat##statname:stats_list}}) [replace] {p_end}
+
+{title:Instructions}
+
+{p}{cmd:sumstats} will print to Excel the requested statistics for the specified variables in each list with the specified conditions for that list.
+Specify with {help using} the desired file path for the {help putexcel} output. {bf:aweights} and {bf:fweights} are allowed; statistics are calculated with {help tabstat}.
+
+{title:Example}
+
+{inp} {stata sysuse auto.dta , clear:sysuse auto.dta , clear}
+{inp} {stata sumstats (price mpg if foreign == 0)(price displacement length if foreign == 1) using "test.xlsx" , replace stats(mean sd):sumstats}  ///
+{inp}  (price mpg if foreign == 0) ///
+{inp}  (price displacement length if foreign == 1) ///
+{inp}  using "test.xlsx" , replace stats(mean sd)
+
+{title:Author}
+
+Benjamin Daniels
+bbdaniels@gmail.com
+
+{title:Contributing}
+
+{p}{bf: sumstats} is available on {TODO: browse "https://ideas.repec.org/c/boc/bocode/s458560.html":SSC}
+and is open for development on {browse "https://bbdaniels.github.io/sumstats":GitHub}.
+Submit bugs and feature requests {browse "https://github.com/bbdaniels/sumstats/issues":here}.
+If you like {bf sumstats}, be sure to visit my {browse "http://bbdaniels.github.io":homepage}
+and {browse "https://gist.github.com/bbdaniels/a3c9f9416f1d16d6f3c6e8cf371f1d89":Stata boilerplate code}.{p_end}
