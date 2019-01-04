@@ -1,7 +1,7 @@
 {smcl}
-{* Nov 8th 2017}
+{* Dec 31st 2018}
 {hline}
-Help for {hi:sumstats} version 1.0.0
+Help for {hi:sumstats}
 {hline}
 
 {title:Description}
@@ -11,7 +11,7 @@ and prints them to a specified output file using {help putexcel}.
 
 {title:Syntax}
 
-{phang}{cmd:sumstats} ({it:varlist_1} [{help if}]) [({it:varlist_2} [{help if}]) ...]
+{phang}{cmd:sumstats} ({it:varlist_1} [{help if}]) [({it:varlist_2} [{help if}])] [...]
 {break}	{help using} {it:"/path/to/output.xlsx"} [{help weight}], stats({it:{help tabstat##statname:stats_list}}) [replace] {p_end}
 
 {title:Instructions}
@@ -21,11 +21,12 @@ Specify with {help using} the desired file path for the {help putexcel} output. 
 
 {title:Example}
 
-{inp} {stata sysuse auto.dta , clear:sysuse auto.dta , clear}
-{inp} {stata sumstats (price mpg if foreign == 0)(price displacement length if foreign == 1) using "test.xlsx" , replace stats(mean sd):sumstats}  ///
-{inp}  (price mpg if foreign == 0) ///
-{inp}  (price displacement length if foreign == 1) ///
-{inp}  using "test.xlsx" , replace stats(mean sd)
+{p 2}{stata sysuse auto.dta , clear:sysuse auto.dta , clear}{p_end}
+{p 2 4}{stata sumstats (price mpg if foreign == 0)(price displacement length if foreign == 1) using "test.xlsx" , replace stats(mean sd):sumstats}  ///
+{break}(price mpg if foreign == 0) ///
+{break}(price displacement length if foreign == 1) ///
+{break}using "test.xlsx" , replace stats(mean sd)
+{p_end}
 
 {title:Author}
 
@@ -34,8 +35,7 @@ bbdaniels@gmail.com
 
 {title:Contributing}
 
-{p}{bf: sumstats} is available on {TODO: browse "https://ideas.repec.org/c/boc/bocode/s458560.html":SSC}
-and is open for development on {browse "https://bbdaniels.github.io/sumstats":GitHub}.
+{p}{bf: sumstats} is open for development on {browse "https://bbdaniels.github.io/sumstats":GitHub}.
 Submit bugs and feature requests {browse "https://github.com/bbdaniels/sumstats/issues":here}.
-If you like {bf sumstats}, be sure to visit my {browse "http://bbdaniels.github.io":homepage}
+If you like {bf:sumstats}, be sure to visit my {browse "http://bbdaniels.github.io":homepage}
 and {browse "https://gist.github.com/bbdaniels/a3c9f9416f1d16d6f3c6e8cf371f1d89":Stata boilerplate code}.{p_end}

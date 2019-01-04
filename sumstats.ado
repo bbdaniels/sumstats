@@ -1,6 +1,6 @@
-//! version 1.0.0 31DEC2018  DIME Analytics bdaniels@worldbank.org
+//! version 1.0 31DEC2018  DIME Analytics bbdaniels@gmail.com
 
-// Creates table of summary statistics
+// sumstats - Stata module to produce tables of summart statistics
 
 cap prog drop sumstats
 prog def sumstats
