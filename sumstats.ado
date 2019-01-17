@@ -24,7 +24,7 @@ qui {
 
 // Initialize output Excel file
 
-	putexcel set `using' , `replace'
+	putexcel set "`using'" , `replace'
 
 	// Stats headers
 	local col = 1
