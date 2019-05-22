@@ -46,7 +46,10 @@ qui {
 			local justvars = substr("``i''",1,strpos("``i''"," if "))
 			local ifcond = `"Subsample: `ifcond'"'
 		}
-		else local ifcond "Full Sample"
+		else {
+      local ifcond "Full Sample"
+      local justvars = "``i''"
+    }
 		putexcel A`theRow' = "`ifcond'", bold
 
 		// Get statistics
