@@ -76,49 +76,48 @@ di in red "Summary statistics output to `using'"
 end
 
 // Program to parse on parenthesis
-  cap prog drop parenParse
-  program def parenParse , rclass
+cap prog drop parenParse
+program def parenParse , rclass
 
-    syntax anything
+  syntax anything
 
-    local N = length(`"`anything'"')
+  local N = length(`"`anything'"')
 
-    local x = 0
-    local parCount = 0
+  local x = 0
+  local parCount = 0
 
-    // Run through string
-    forv i = 1/`N' {
-      local char = substr(`"`anything'"',`i',1) // Get next character
+  // Run through string
+  forv i = 1/`N' {
+    local char = substr(`"`anything'"',`i',1) // Get next character
 
-      // Increment unit and counter when encountering open parenthesis
-      if `"`char'"' == "(" {
-        if `parCount' == 0 {
-          local ++x // Start next item when encountering new block
-        }
-        else {
-          local string`x' = `"`string`x''`char'"'
-        }
-        local ++parCount
+    // Increment unit and counter when encountering open parenthesis
+    if `"`char'"' == "(" {
+      if `parCount' == 0 {
+        local ++x // Start next item when encountering new block
       }
-      // Otherwise de-increment counter if close parenthesis
-      else if `"`char'"' == ")" {
-        local --parCount
-        if `parCount' != 0 local string`x' = `"`string`x''`char'"'
-      }
-      // Otherwise add character to string block
       else {
         local string`x' = `"`string`x''`char'"'
       }
+      local ++parCount
     }
+    // Otherwise de-increment counter if close parenthesis
+    else if `"`char'"' == ")" {
+      local --parCount
+      if `parCount' != 0 local string`x' = `"`string`x''`char'"'
+    }
+    // Otherwise add character to string block
+    else {
+      local string`x' = `"`string`x''`char'"'
+    }
+  }
 
   // Return strings to calling program
+  return scalar nStrings = `x'
+  forv i = 1/`x' {
+    return local string`i' = `"`string`i''"'
+  }
 
-    return scalar nStrings = `x'
-    forv i = 1/`x' {
-      return local string`i' = `"`string`i''"'
-    }
-
-  end
+end
 // End
 
 // Have a lovely day!
