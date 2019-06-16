@@ -72,7 +72,7 @@ qui {
 
 // end qui
 }
-di in red "Summary statistics output to `using'"
+di "Summary statistics output to {browse `using'}"
 end
 
 // Program to parse on parenthesis
