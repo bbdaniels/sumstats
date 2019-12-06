@@ -1,6 +1,6 @@
-//! version 1.1 22 May 2019 Benjamin Daniels bbdaniels@gmail.com
+//! version 1.2 31DEC2019 Benjamin Daniels bbdaniels@gmail.com
 
-// sumstats - Stata module to produce tables of summart statistics
+// sumstats - Stata module to produce tables of summary statistics
 
 cap prog drop sumstats
 prog def sumstats
