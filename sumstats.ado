@@ -1,26 +1,22 @@
-//! version 1.1 22 May 2019 Benjamin Daniels bbdaniels@gmail.com
+//! version 1.2 31DEC2019 Benjamin Daniels bbdaniels@gmail.com
 
-// sumstats - Stata module to produce tables of summart statistics
+// sumstats - Stata module to produce tables of summary statistics
 
 cap prog drop sumstats
 prog def sumstats
 
 version 15.1 // Necessary for putexcel syntax
 
-syntax anything using/ [aw fw], stats(string asis) [replace]
+syntax anything using/ [aw fw],   ///
+  stats(string asis)              ///
+  [replace]
 
 cap mat drop stats_toprint
 qui {
+
 // Separate into variable lists
 
-	local x = 0
-	while strpos("`anything'",")") > 0 {
-		local ++x
-		local `x' = substr("`anything'",1,strpos("`anything'",")")-1) 	// Take out group of variables up to close-parenthesis
-			local `x' = subinstr("``x''","(","",1) 			// Remove open-parenthesis.
-
-		local anything    = substr("`anything'",strpos("`anything'",")")+1,.) 	// Replace remaining list with everything after close-parenthesis
-	}
+  parenParse `anything'
 
 // Initialize output Excel file
 
@@ -37,24 +33,24 @@ qui {
 // Loop over groups writing statistics and if-conditions
 
 	local theRow = 1
-	forvalues i = 1/`x' {
+	forvalues i = 1/`r(nStrings)' {
 		local ++theRow
 
 		// Catch if-condition if any, else print full sample
-		if regexm("``i''"," if ") {
-			local ifcond = substr("``i''",strpos("``i''"," if ")+4,.)
-			local justvars = substr("``i''",1,strpos("``i''"," if "))
+		if regexm("`r(string`i')'"," if ") {
+			local ifcond = substr(`"`r(string`i')'"',strpos(`"`r(string`i')'"'," if ")+4,.)
+			local justvars = substr(`"`r(string`i')'"',1,strpos(`"`r(string`i')'"'," if "))
 			local ifcond = `"Subsample: `ifcond'"'
 		}
 		else {
       local ifcond "Full Sample"
-      local justvars = "``i''"
+      local justvars = "`r(string`i')'"
     }
-		putexcel A`theRow' = "`ifcond'", bold
+		putexcel A`theRow' = `"`ifcond'"', bold
 
 		// Get statistics
 		local ++theRow
-		qui tabstat  ``i''  ///
+		qui tabstat  `r(string`i')'  ///
 			[`weight'`exp'] ///
 			, s(`stats') save
 			mat a = r(StatTotal)'
@@ -76,6 +72,52 @@ qui {
 
 // end qui
 }
-di in red "Summary statistics output to `using'"
+di "Summary statistics output to {browse `using'}"
 end
+
+// Program to parse on parenthesis
+cap prog drop parenParse
+program def parenParse , rclass
+
+  syntax anything
+
+  local N = length(`"`anything'"')
+
+  local x = 0
+  local parCount = 0
+
+  // Run through string
+  forv i = 1/`N' {
+    local char = substr(`"`anything'"',`i',1) // Get next character
+
+    // Increment unit and counter when encountering open parenthesis
+    if `"`char'"' == "(" {
+      if `parCount' == 0 {
+        local ++x // Start next item when encountering new block
+      }
+      else {
+        local string`x' = `"`string`x''`char'"'
+      }
+      local ++parCount
+    }
+    // Otherwise de-increment counter if close parenthesis
+    else if `"`char'"' == ")" {
+      local --parCount
+      if `parCount' != 0 local string`x' = `"`string`x''`char'"'
+    }
+    // Otherwise add character to string block
+    else {
+      local string`x' = `"`string`x''`char'"'
+    }
+  }
+
+  // Return strings to calling program
+  return scalar nStrings = `x'
+  forv i = 1/`x' {
+    return local string`i' = `"`string`i''"'
+  }
+
+end
+// End
+
 // Have a lovely day!

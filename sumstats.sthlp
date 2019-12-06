@@ -35,7 +35,6 @@ bbdaniels@gmail.com
 
 {title:Contributing}
 
-{p}{bf: sumstats} is open for development on {browse "https://bbdaniels.github.io/sumstats":GitHub}.
+{p}{bf: sumstats} is open for development on {https://github.com/bbdaniels/sumstats":GitHub}.
 Submit bugs and feature requests {browse "https://github.com/bbdaniels/sumstats/issues":here}.
-If you like {bf:sumstats}, be sure to visit my {browse "http://bbdaniels.github.io":homepage}
-and {browse "https://gist.github.com/bbdaniels/a3c9f9416f1d16d6f3c6e8cf371f1d89":Stata boilerplate code}.{p_end}
+If you like {bf:sumstats}, be sure to visit my {browse "http://www.benjaminbdaniels.com":homepage}.{p_end}
