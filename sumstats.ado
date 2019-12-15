@@ -1,4 +1,4 @@
-//! version 1.2 31DEC2019 Benjamin Daniels bbdaniels@gmail.com
+//! version 1.3 31DEC2019 Benjamin Daniels bbdaniels@gmail.com
 
 // sumstats - Stata module to produce tables of summary statistics
 
@@ -17,6 +17,15 @@ qui {
 // Separate into variable lists
 
   parenParse `anything'
+  forvalues i = 1/`r(nStrings)' {
+    local string`i' = "`r(string`i')'"
+    if strpos("`string`i''"," if ") {
+      local string`i' = substr("`string`i''",1,strpos("`string`i''","if")-1)
+      local if`i' = substr("`r(string`i')'",strpos("`r(string`i')'","if")-1,.)
+    }
+    unab string`i' : `string`i''
+    local string`i' = "`string`i'' `if`i''"
+  }
 
 // Initialize output Excel file
 
@@ -37,20 +46,20 @@ qui {
 		local ++theRow
 
 		// Catch if-condition if any, else print full sample
-		if regexm("`r(string`i')'"," if ") {
-			local ifcond = substr(`"`r(string`i')'"',strpos(`"`r(string`i')'"'," if ")+4,.)
-			local justvars = substr(`"`r(string`i')'"',1,strpos(`"`r(string`i')'"'," if "))
+		if regexm("`string`i''"," if ") {
+			local ifcond = substr(`"`string`i''"',strpos(`"`string`i''"'," if ")+4,.)
+			local justvars = substr(`"`string`i''"',1,strpos(`"`string`i''"'," if "))
 			local ifcond = `"Subsample: `ifcond'"'
 		}
 		else {
       local ifcond "Full Sample"
-      local justvars = "`r(string`i')'"
+      local justvars = "`string`i''"
     }
 		putexcel A`theRow' = `"`ifcond'"', bold
 
 		// Get statistics
 		local ++theRow
-		qui tabstat  `r(string`i')'  ///
+		qui tabstat  `string`i''  ///
 			[`weight'`exp'] ///
 			, s(`stats') save
 			mat a = r(StatTotal)'
