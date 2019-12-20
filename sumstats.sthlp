@@ -1,5 +1,5 @@
 {smcl}
-{* Dec 31st 2018}
+{* Dec 31st 2019}
 {hline}
 Help for {hi:sumstats}
 {hline}

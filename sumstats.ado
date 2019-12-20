@@ -1,4 +1,4 @@
-//! version 1.3 31DEC2019 Benjamin Daniels bbdaniels@gmail.com
+*! version 1.3 31DEC2019 Benjamin Daniels bbdaniels@gmail.com
 
 // sumstats - Stata module to produce tables of summary statistics
 
