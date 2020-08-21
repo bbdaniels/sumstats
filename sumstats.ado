@@ -9,7 +9,7 @@ version 15.1 // Necessary for putexcel syntax
 
 syntax anything using/ [aw fw],   ///
   stats(string asis)              ///
-  [replace]
+  [replace] [sheet(passthru)]
 
 cap mat drop stats_toprint
 qui {
@@ -29,7 +29,7 @@ qui {
 
 // Initialize output Excel file
 
-	putexcel set "`using'" , `replace'
+	putexcel set "`using'" , `replace' `sheet'
 
 	// Stats headers
 	local col = 1
