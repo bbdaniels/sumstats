@@ -12,12 +12,14 @@ and prints them to a specified output file using {help putexcel}.
 {title:Syntax}
 
 {phang}{cmd:sumstats} ({it:varlist_1} [{help if}]) [({it:varlist_2} [{help if}])] [...]
-{break}	{help using} {it:"/path/to/output.xlsx"} [{help weight}], stats({it:{help tabstat##statname:stats_list}}) [replace] {p_end}
+{break}	{help using} {it:"/path/to/output.xlsx"} [{help weight}]
+{break} , stats({it:{help tabstat##statname:stats_list}})
+{break}  [replace] [sheet({it:sheetname} [, replace])] {p_end}
 
 {title:Instructions}
 
 {p}{cmd:sumstats} will print to Excel the requested statistics for the specified variables in each list with the specified conditions for that list.
-Specify with {help using} the desired file path for the {help putexcel} output. {bf:aweights} and {bf:fweights} are allowed; statistics are calculated with {help tabstat}.
+Specify with {help using} the desired file path (and, optionally, a sheet name in {bf:sheet()} using {help putexcel} syntax) for the {help putexcel} output. {bf:aweights} and {bf:fweights} are allowed; statistics are calculated with {help tabstat}.
 
 {title:Example}
 
